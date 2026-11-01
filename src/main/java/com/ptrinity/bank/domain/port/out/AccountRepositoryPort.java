@@ -20,6 +20,8 @@ public interface AccountRepositoryPort {
      */
     Optional<Account> findByAccountNumberForUpdate(String accountNumber);
 
+    Optional<Account> findByIdForUpdate(Long id);
+
     List<Account> findAll();
 
     List<Account> findByCustomerId(Long customerId);
