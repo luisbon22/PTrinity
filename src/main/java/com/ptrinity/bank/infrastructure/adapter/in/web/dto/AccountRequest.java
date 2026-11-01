@@ -10,6 +10,11 @@ public record AccountRequest(
         @NotNull(message = "El tipo de cuenta es obligatorio")
         AccountType accountType,
 
-        boolean gmfExempt
+        Boolean gmfExempt
 ) {
+
+    /** Si no se indica, la cuenta no queda exenta del GMF. */
+    public boolean isGmfExempt() {
+        return Boolean.TRUE.equals(gmfExempt);
+    }
 }

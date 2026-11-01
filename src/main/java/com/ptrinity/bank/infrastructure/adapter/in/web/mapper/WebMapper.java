@@ -40,7 +40,7 @@ public final class WebMapper {
     }
 
     public static OpenAccountCommand toCommand(AccountRequest request) {
-        return new OpenAccountCommand(request.customerId(), request.accountType(), request.gmfExempt());
+        return new OpenAccountCommand(request.customerId(), request.accountType(), request.isGmfExempt());
     }
 
     public static AccountResponse toResponse(Account account) {
