@@ -28,7 +28,7 @@ public record Transaction(
     public static Transaction credit(String reference, TransactionType type, Account account, BigDecimal amount,
                                      String counterpartAccountNumber, String description, LocalDateTime now) {
         return new Transaction(null, reference, type, MovementType.CREDIT, account.getId(),
-                account.getAccountNumber(), amount, BigDecimal.ZERO.setScale(2), account.getBalance(),
+                account.getAccountNumber(), amount.setScale(2), BigDecimal.ZERO.setScale(2), account.getBalance(),
                 counterpartAccountNumber, description, now);
     }
 
@@ -36,7 +36,7 @@ public record Transaction(
                                     BigDecimal gmf, String counterpartAccountNumber, String description,
                                     LocalDateTime now) {
         return new Transaction(null, reference, type, MovementType.DEBIT, account.getId(),
-                account.getAccountNumber(), amount, gmf, account.getBalance(),
+                account.getAccountNumber(), amount.setScale(2), gmf, account.getBalance(),
                 counterpartAccountNumber, description, now);
     }
 }
