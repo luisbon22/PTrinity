@@ -1,0 +1,24 @@
+# Produccion (rama main): sin datos de demostracion y sin Swagger UI.
+# Las credenciales llegan solo por variables de entorno.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  flyway:
+    locations: classpath:db/migration
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+server:
+  error:
+    include-message: never
+
+logging:
+  level:
+    root: WARN
+    com.ptrinity: INFO

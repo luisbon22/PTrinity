@@ -1,0 +1,12 @@
+# Ambiente de desarrollo (rama dev): datos de demostracion y trazas SQL.
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ptrinity_dev}
+  flyway:
+    locations: classpath:db/migration,classpath:db/demo
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    com.ptrinity: DEBUG
