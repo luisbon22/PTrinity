@@ -1,0 +1,55 @@
+# Tres componentes: base de datos, backend y frontend.
+# El ambiente se elige con un archivo de variables:
+#   docker compose --env-file env/dev.env up -d --build
+#   docker compose --env-file env/qa.env  up -d --build
+# Cada ambiente usa su propio nombre de proyecto, puertos y volumen, asi que pueden correr a la vez.
+name: ptrinity-${AMBIENTE:-dev}
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-ptrinity_dev}
+      POSTGRES_USER: ${DB_USERNAME:-ptrinity}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ptrinity}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        OMITIR_PRUEBAS: ${OMITIR_PRUEBAS:-false}
+    image: ptrinity-backend:${AMBIENTE:-dev}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${AMBIENTE:-dev}
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-ptrinity_dev}
+      DB_USERNAME: ${DB_USERNAME:-ptrinity}
+      DB_PASSWORD: ${DB_PASSWORD:-ptrinity}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        OMITIR_PRUEBAS: ${OMITIR_PRUEBAS:-false}
+    image: ptrinity-frontend:${AMBIENTE:-dev}
+    ports:
+      - "${WEB_PORT:-3000}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  datos:
