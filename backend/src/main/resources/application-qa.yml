@@ -1,0 +1,10 @@
+# Ambiente de pruebas de calidad (rama qa): datos de demostracion, sin trazas SQL.
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ptrinity_qa}
+  flyway:
+    locations: classpath:db/migration,classpath:db/demo
+
+logging:
+  level:
+    com.ptrinity: INFO
