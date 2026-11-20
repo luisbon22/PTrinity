@@ -13,14 +13,10 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate.jdbc.time_zone: America/Bogota
   flyway:
     enabled: true
     # DDL siempre; los datos de demostracion (DML) se agregan por ambiente
     locations: classpath:db/migration
-  jackson:
-    time-zone: America/Bogota
 
 server:
   port: ${PORT:8080}
